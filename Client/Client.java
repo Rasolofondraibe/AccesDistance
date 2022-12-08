@@ -1,66 +1,59 @@
 import java.net.*;
-import java.io.*;
-import java.awt.Robot;
+import java.nio.ByteBuffer;
 
+import javax.imageio.ImageIO;
+
+import java.io.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 
 /**
- * @author Niaina  
+ * @author Niaina
  */
 public class Client {
-    
-  public static void main(String[] args) {
-    URLConnection connexion = null;
-    
-   try {
-    URL url = new URL("D:/Lesson/java/api");
+  private static Socket s = null;
+  private static OutputStream output;
+  private static DataInputStream input;
 
-    System.out.println("Connexion a l'url ...");
-    connexion = url.openConnection();
-      InputStream input= 	url.openStream();
-      Robot r=new Robot();
-      r.createMultiResolutionScreenCapture(null)
+  public static void main(String[] args) throws UnknownHostException, IOException, AWTException {
+    s = new Socket("localhost", 5000);
+    Robot r = new Robot();
+    input = new DataInputStream(s.getInputStream());
+    getImage(r);
+    getCommande(r, input);
 
-    connexion.setAllowUserInteraction(true);
-    DataInputStream in = new DataInputStream(connexion.getInputStream());
-    System.out.println("mety:"+input.read());
-    input.close();
- 
-      //   while (true) {
-      //     System.out.print(in.readUTF());
-      // }
-    } catch (Exception e) {
-    	e.printStackTrace();
-    } finally {
-      //connexion.disconnect();
-      }
-    System.exit(0);
   }
 
-  final static int port = 9632;
+  private static void getImage(Robot r) {
+    //while (true) {
+      Image image = null;
+      Rectangle rect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+      try {
+        output = s.getOutputStream();
+        image = r.createScreenCapture(rect);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        // ImageIO.write((RenderedImage) image, "png", new File("F:/Acces
+        // final/image.png"));
+        ImageIO.write((RenderedImage) image, "jpg", byteArrayOutputStream);
+        byte[] size = ByteBuffer.allocate(4).putInt(byteArrayOutputStream.size()).array();
+        output.write(size);
+        output.write(byteArrayOutputStream.toByteArray());
+        output.flush();
 
-  // public static void main(String[] args) {
-  //   try {
-  //     ServerSocket socketServeur = new ServerSocket(port);
-  //     System.out.println("Lancement du serveur");
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    //}
+  }
 
-  //     while (true) {
-  //       Socket socketClient = socketServeur.accept();
-  //       String message = "";
-
-  //       System.out.println("Connexion avec : "+socketClient.getInetAddress());
-
-  //       // InputStream in = socketClient.getInputStream();
-  //       // OutputStream out = socketClient.getOutputStream();
-
-  //       BufferedReader in = new BufferedReader(
-  //         new InputStreamReader(socketClient.getInputStream()));
-  //       PrintStream out = new PrintStream(socketClient.getOutputStream());
-  //       message = in.readLine();
-  //       out.println(message);
-
-  //       socketClient.close();
-  //     }
-  //   } catch (Exception e) {
-  //     e.printStackTrace();
-  //   }
+  private static void getCommande(Robot robot, DataInputStream input) {
+    while (true) {
+      try {
+        new ReceiveEvent(s, robot);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
 }
