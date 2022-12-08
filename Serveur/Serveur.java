@@ -51,7 +51,7 @@ public class Serveur extends Thread {
   }
 
   public static void getImage(JFrame frame) {
-    //while (true) {
+    while (true) {
       Image image = null;
       System.out.println("imageAr");
       try {
@@ -75,7 +75,7 @@ public class Serveur extends Thread {
       } catch (IOException e) {
         e.printStackTrace();
       }
-    //}
+    }
   }
 
   private static void grapheImage(DataOutputStream output,JFrame frame) throws PropertyVetoException {

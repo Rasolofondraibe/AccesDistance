@@ -26,7 +26,7 @@ public class Client {
   }
 
   private static void getImage(Robot r) {
-    //while (true) {
+    while (true) {
       Image image = null;
       Rectangle rect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
       try {
@@ -44,7 +44,7 @@ public class Client {
       } catch (IOException e) {
         e.printStackTrace();
       }
-    //}
+    }
   }
 
   private static void getCommande(Robot robot, DataInputStream input) {
