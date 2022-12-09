@@ -42,7 +42,10 @@ public class ReceiveEvent {
                         System.out.println("Mouse Released");
                         break;
                     case 3:
-                        r.mouseMove((int) (scanner.nextDouble() * width), (int) (scanner.nextDouble() * height));
+                        String cood=scanner.next();
+                        int x =Integer.parseInt(cood.split(":")[0]);
+                        int y =Integer.parseInt(cood.split(":")[1]);
+                        r.mouseMove((int) (x), (int) (y));
                         System.out.println("Mouse moved");
                         break;
                     case 4:
@@ -61,6 +64,5 @@ public class ReceiveEvent {
                 System.out.println("Exception in receive events:" + ex);
             }
         }
-
     }
 }

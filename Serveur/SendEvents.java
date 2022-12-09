@@ -5,8 +5,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.net.Socket;
 
 import javax.swing.JFrame;
@@ -71,10 +69,10 @@ public class SendEvents implements MouseListener, MouseMotionListener, KeyListen
         writer.println("3");
            System.out.println("Mouse moved");
      
-        double x = ((double) e.getX() / frame.getWidth());
-        double y = ((double) e.getY() / frame.getHeight());
-        writer.println(x);
-        writer.println(y);
+        double x = ((double) e.getX());
+        double y = ((double) e.getY());
+        writer.println(e.getX()+":"+e.getY());
+        writer.println();
         writer.flush();
         
     }

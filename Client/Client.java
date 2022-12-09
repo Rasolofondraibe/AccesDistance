@@ -17,7 +17,7 @@ public class Client {
   private static DataInputStream input;
 
   public static void main(String[] args) throws UnknownHostException, IOException, AWTException {
-    s = new Socket("localhost", 5000);
+    s = new Socket("192.168.10.244", 5000);
     Robot r = new Robot();
     input = new DataInputStream(s.getInputStream());
     getImage(r);
@@ -26,7 +26,7 @@ public class Client {
   }
 
   private static void getImage(Robot r) {
-    while (true) {
+    //while (true) {
       Image image = null;
       Rectangle rect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
       try {
@@ -34,7 +34,8 @@ public class Client {
         image = r.createScreenCapture(rect);
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         // ImageIO.write((RenderedImage) image, "png", new File("F:/Acces
-        // final/image.png"));
+        // final/image.png"));llllllllohhnjalsdgjlkidsjgnfdsgnnkldfsngknfkd
+
         ImageIO.write((RenderedImage) image, "jpg", byteArrayOutputStream);
         byte[] size = ByteBuffer.allocate(4).putInt(byteArrayOutputStream.size()).array();
         output.write(size);
@@ -44,7 +45,7 @@ public class Client {
       } catch (IOException e) {
         e.printStackTrace();
       }
-    }
+    //}
   }
 
   private static void getCommande(Robot robot, DataInputStream input) {
