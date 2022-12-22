@@ -8,9 +8,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-public class SendEvents implements MouseListener, MouseMotionListener, KeyListener{
+public class SendEvents implements MouseListener, MouseMotionListener, KeyListener {
 
     PrintWriter writer;
     int width, height;
@@ -18,10 +17,6 @@ public class SendEvents implements MouseListener, MouseMotionListener, KeyListen
 
     public SendEvents(Socket s) {
         try {
-            this.height = height;
-            this.width = width;
-            
-            System.out.println("Send Events called");
             writer = new PrintWriter(s.getOutputStream());
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -31,8 +26,7 @@ public class SendEvents implements MouseListener, MouseMotionListener, KeyListen
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
-        
-        
+
     }
 
     @Override
@@ -41,9 +35,8 @@ public class SendEvents implements MouseListener, MouseMotionListener, KeyListen
         writer.println("4");
         int code = e.getKeyCode();
         writer.println(code);
-        System.out.println("Key Pressed");
         writer.flush();
-        
+
     }
 
     @Override
@@ -52,14 +45,13 @@ public class SendEvents implements MouseListener, MouseMotionListener, KeyListen
         writer.println("5");
         int code = e.getKeyCode();
         writer.println(code);
-        System.out.println("Key Released");
         writer.flush();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
@@ -67,14 +59,9 @@ public class SendEvents implements MouseListener, MouseMotionListener, KeyListen
         // TODO Auto-generated method stub
 
         writer.println("3");
-           System.out.println("Mouse moved");
-     
-        double x = ((double) e.getX());
-        double y = ((double) e.getY());
-        writer.println(e.getX()+":"+e.getY());
-        writer.println();
+        writer.println(e.getX() + ":" + e.getY());
         writer.flush();
-        
+
     }
 
     @Override
@@ -82,38 +69,48 @@ public class SendEvents implements MouseListener, MouseMotionListener, KeyListen
         // TODO Auto-generated method stub
         writer.println("1");
         System.out.println("Mouse Pressed");
-        int click = e.getButton();
-        writer.println(click);
+        int Click = 4;
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            Click = 16;
+        } else if (e.getButton() == MouseEvent.BUTTON2) {
+            Click = 4;
+        }
+        System.out.println(Click);
+        writer.println(Click);
         writer.flush();
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+        // writer.println("1");
+        // System.out.println("Mouse Pressed");
+        // int click = e.getButton();
+        // writer.println(click);
+        // writer.flush();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         // TODO Auto-generated method stub
         writer.println("2");
-           System.out.println("Mouse released");
+        System.out.println("Mouse released");
         int click = e.getButton();
         writer.println(click);
         writer.flush();
-        
+
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
-    
+
 }
